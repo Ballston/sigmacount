@@ -1,0 +1,21 @@
+
+{% extends 'sigmauser/base.html' %}
+
+
+{% block content %}
+
+
+<li>WorkSpaces from Model {{tsmodelid}}</li>
+<ul>
+    {% for singleset in workspaces %}
+      <li><a href="/tsbuild/workspace/{{tsmodelid}}/{{singleset}}/">{{singleset}}</a></li>
+    {% endfor %}
+    <li><a href="/tsbuild/workspace/{{tsmodelid}}/new/">Create New</a></li>
+</ul>
+    
+
+{% endblock %}
+
+
+
+

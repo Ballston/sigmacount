@@ -1,0 +1,91 @@
+
+{% extends 'sigmauser/base.html' %}
+
+
+{% block content %}
+
+
+<table>
+    <tr>
+     <form id="IndepVar" method="post" action="/tsbuild/workspace/{{tsmodelid}}/{{tsworkspaceid}}/addindepvar/" enctype="multipart/form-data">
+            {% csrf_token %}
+            <td>Independent Var </td>
+            <td>
+                {{ workspacespec_form.indepVar}}
+                {% for i in spec.indepVar %}
+                    <a href='"/tsbuild/WorkSpace/{{tsmodelid}}/{{tsworkspaceid}}/remove/'>{{i}}</a>
+                 {% endfor %}
+            </td>
+            <td>
+                <input type="submit" name="submit" value="Add" />
+            </td>
+            
+    </form>
+     </tr>
+
+    <form id="SetSpecifications" method="post" action="/tsbuild/workspace/{{tsmodelid}}/{{tsworkspaceid}}/setspecs/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <tr>
+                <td>Dependent Var</td>
+                <td>
+                    {{ workspacespec_form.depVar}}
+                    {{spec.depVar}}
+                </td>
+                <td></td>
+         </tr>
+        
+        <tr>
+    
+                <td width=20%>Model Type</td>
+                <td>
+                    {{ workspacespec_form.modeltype}}
+                    {{spec.modeltype}}
+                </td>
+                <td></td>
+        </tr>
+        
+        <tr>
+                <td width=20%>Startdate</td>
+                <td>
+                    {{ workspacespec_form.startdate}}
+                    {{spec.startdate}}
+                </td>
+                <td></td>
+        </tr>
+        
+        <tr>
+                <td width=20%>Startdate</td>
+                <td>
+                    {{ workspacespec_form.enddate}}
+                    {{spec.enddate}}
+                </td>
+                <td></td>
+        </tr>
+        
+        {% ifequal spec.modeltype '1' %}
+        <tr>
+                  <td>AR,I,MA</td>
+                  <td>
+                      {{ workspacespec_form.AR}},
+                      {{ workspacespec_form.I}},
+                      {{ workspacespec_form.MA}}
+                      ({{spec.AR}},{{spec.I}},{{spec.MA}})
+                  </td>
+                  
+        </tr>
+        {% endifequal %}
+        
+        <td><input type="submit" name="submit" value="Select Specs"/>
+            <a href='/tsbuild/workspace/{{tsmodelid}}/{{tsworkspaceid}}/clear/'>Clear</a>
+            <a href='/tsbuild/workspace/{{tsmodelid}}/{{tsworkspaceid}}/save/'>Save</a>
+            <a href='/tsbuild/workspace/{{tsmodelid}}/{{tsworkspaceid}}/runestimation/'>Run</a></td>
+    </form>
+
+</table>
+    
+
+{% endblock %}
+
+
+
+

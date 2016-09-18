@@ -1,0 +1,55 @@
+{% extends 'sigmauser/base.html' %}
+
+{% block content %}
+<div id="wrapper">
+{% if user.is_authenticated%}
+        <div id="content_area">
+            <h1>Welcome  {{user.username}}</h1>
+            <p>About</p>
+            <p>Partners</p>
+            <p>Groups</>
+        </div>
+        
+        <div id="left_side">
+                <ul>
+                <li>Create New Project</li>
+                <li><a href="/exploredata/">Explore Data</a></li>
+                <li><a href="/tsbuild">Time Series Model</a></li>
+                <li><a href="/">Some Other Model</a></li>
+              </ul>
+       </div>
+ 
+        <div id="right_side">
+             <ul>
+                {% if dsets %}
+                    <li>Datasets</li>
+                    <ul>
+                        {% for singleset in dsets %}
+                          <li><a href="/exploredata/{{singleset.datasetid}}">{{singleset.dataname}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if tsmsets %}
+                    <li>Project</li>
+                    <ul>
+                        {% for singlemodel in tsmsets %}
+                          <li><a href="/tsbuild/workspace/{{singlemodel.tsmodelid}}/">{{singlemodel.modelname}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+                <li><a href="#">Project Name 1</a></li>
+                <li><a href="#">Project Name 2</a></li>
+                <li><a href="#">Project Name 2</a></li>
+              </ul>
+        </div>
+       
+
+{% else %}
+        <div id="content_area">
+            <h1>Welcome  to Sigma Count</h1>
+            Add discussion about it here
+        </div>
+{% endif %}
+</div>
+{% endblock %}

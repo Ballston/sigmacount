@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<?xml-stylesheet type="text/css" href="AR1_forecast_test.css"?> 
+<?xml-stylesheet type="text/xsl" href="pmathml.xsl"?> 
+<!--http://www.w3.org/Math/XSL/pmathml.xsl--> 
+<html  
+xmlns="http://www.w3.org/1999/xhtml"  
+><head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<!-- html,pmathml,xhtml,mozilla --> 
+<meta name="src" content="AR1_forecast_test.tex" /> 
+<meta name="date" content="2016-08-28 01:01:00" /> 
+<link rel="stylesheet" type="text/css" href="AR1_forecast_test.css" /> 
+</head><body 
+>
+<!--l. 8--><p class="noindent" >I am interested in a test that determines that an out of time k-step forecast of an
+ARX model is a &#x201D;good&#x201D; forecast (i.e., residuals are as close to zero as
+possible).<br 
+class="newline" />
+</p><!--l. 11--><p class="noindent" >Let&#x2019;s say we have a <!--l. 12--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>A</mi><mi 
+>R</mi><mi 
+>X</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>1</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+model developed on <!--l. 12--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>m</mi></math>
+observations and it has <!--l. 12--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>n</mi></math>
+co-variates.
+</p>
+  <table class="equation"><tr><td> <a 
+ id="x1-2r1"></a>
+<!--l. 14--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" class="equation">
+                   <msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mi 
+>t</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mi 
+>t</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>n</mi></mrow></munderover 
+><msub><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mrow 
+>
+<mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mi 
+>X</mi></mrow><mrow 
+><mi 
+>i</mi><mi 
+>t</mi></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mi 
+>t</mi></mrow></msub 
+>
+</math></td><td class="eq-no">(1)</td></tr></table>
+<a 
+ id="x1-1doc"></a>
+<!--l. 19--><p class="indent" >  Reference to Eqn1 goes here (<a 
+href="#x1-1doc"><!--tex4ht:ref: eqn1 --></a>). The error terms are i.i.d. normal
+<!--l. 21--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">,</mo><mi 
+>&#x03C3;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math> I go on and
+build a <!--l. 21--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>k</mi></math>
+step forecast over a data period that follows the original
+<!--l. 21--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>m</mi></math>
+observations (i.e., out of time forecast). I attempt to evaluate residuals
+recursively.
+</p><!--l. 23--><p class="indent" >  The first forecasted point is
+<!--tex4ht:inline--></p><!--l. 24--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" ><msub><mrow 
+>
+                     <mover 
+accent="true"><mrow 
+><mi 
+>Y</mi> </mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>0</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>n</mi></mrow></munderover 
+><msub><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mrow 
+>
+<mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mi 
+>X</mi></mrow><mrow 
+><mi 
+>i</mi><mn>1</mn></mrow></msub 
+>
+</math>
+<!--l. 24--><p class="nopar" > the corresponding residual will be
+
+<!--tex4ht:inline--></p><!--l. 26--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+                         <msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">&#x2212;</mo><mover 
+accent="true"><mrow 
+><msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>1</mn></mrow></msub 
+></mrow><mo 
+class="MathClass-op"> &#x0302;</mo></mover> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+>
+</math>
+<!--l. 26--><p class="nopar" > which follows that <!--l. 27--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">&#x223D;</mo> <mi 
+>N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">,</mo><mi 
+>&#x03C3;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>.
+Moving on to the second forecasted point (Note this uses the forecast from the
+first step.)
+</p><!--l. 29--><p class="indent" >
+<!--tex4ht:inline--></p><!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" ><msub><mrow 
+>
+                     <mover 
+accent="true"><mrow 
+><mi 
+>Y</mi> </mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>Y</mi> </mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>n</mi></mrow></munderover 
+><msub><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mrow 
+>
+<mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mi 
+>X</mi></mrow><mrow 
+><mi 
+>i</mi><mn>1</mn></mrow></msub 
+>
+</math>
+<!--l. 29--><p class="nopar" >
+</p><!--l. 31--><p class="noindent" >Since <!--l. 32--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>Y</mi> </mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">&#x2212;</mo> <msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+></math>
+</p><!--l. 34--><p class="indent" >
+<!--tex4ht:inline--></p><!--l. 34--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+      <msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">&#x2212;</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>Y</mi> </mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>Y</mi> <mn>2</mn> <mo 
+class="MathClass-bin">&#x2212;</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mi 
+>Y</mi> </mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">&#x2212;</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+>&#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>n</mi></mrow></munderover 
+><msub><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mrow 
+>
+<mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mi 
+>X</mi></mrow><mrow 
+><mi 
+>i</mi><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>&#x03B1;</mi><msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+>
+</math>
+<!--l. 34--><p class="nopar" >
+</p><!--l. 36--><p class="noindent" >The distribution of
+
+<!--tex4ht:inline--></p><!--l. 37--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+                        <msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">&#x223D;</mo> <mi 
+>N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">,</mo><mi 
+>&#x03C3;</mi><msqrt><mrow><mrow ><mo 
+class="MathClass-open">(</mo><mrow></mrow></msqrt><mn>1</mn> <mo 
+class="MathClass-bin">+</mo> <msup><mrow 
+><mi 
+>&#x03B1;</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow>
+</math>
+<!--l. 37--><p class="nopar" > repeating the process we get that
+</p><!--l. 39--><p class="indent" >
+<!--tex4ht:inline--></p><!--l. 39--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+                        <msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>j</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>k</mi><mo 
+class="MathClass-rel">=</mo><mn>0</mn></mrow><mrow 
+><mi 
+>j</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></munderover 
+><msub><mrow 
+><mi 
+>&#x03F5;</mi></mrow><mrow 
+>
+<mi 
+>j</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mi 
+>k</mi></mrow></msub 
+><msup><mrow 
+><mi 
+>&#x03B1;</mi></mrow><mrow 
+><mi 
+>k</mi></mrow></msup 
+>
+</math>
+<!--l. 39--><p class="nopar" >
+</p><!--l. 41--><p class="noindent" >and the distribution of
+<!--tex4ht:inline--></p><!--l. 42--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+                     <msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>j</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">&#x223D;</mo> <mi 
+>N</mi> <mfenced separators="" 
+open="("  close=")" ><mrow><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">,</mo><msup><mrow 
+><mi 
+>&#x03C3;</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><msqrt><mrow><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+>&#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>k</mi><mo 
+class="MathClass-rel">=</mo><mn>0</mn></mrow><mrow 
+><mi 
+>j</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></munderover 
+><msup><mrow 
+><mi 
+>&#x03B1;</mi></mrow><mrow 
+><mi 
+>k</mi></mrow></msup 
+></mrow></msqrt></mrow></mfenced>
+</math>
+<!--l. 42--><p class="nopar" >
+</p><!--l. 44--><p class="noindent" >Now, I am interested in answering a question if the k-step forecast is good and
+the model I have does not need to be redeveloped. The statistic I am
+think that would work for a potential test is sum of normalize residual
+squares.
+</p><!--l. 47--><p class="indent" >
+
+<!--tex4ht:inline--></p><!--l. 47--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+                     <mi 
+>S</mi><mi 
+>t</mi><mi 
+>a</mi><mi 
+>t</mi> <mo 
+class="MathClass-rel">=</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>k</mi></mrow></munderover 
+>        <mfrac><mrow 
+><msubsup><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>i</mi></mrow><mrow 
+><mn>2</mn></mrow></msubsup 
+></mrow>
+<mrow 
+><msup><mrow 
+><mi 
+>&#x03C3;</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>l</mi><mo 
+class="MathClass-rel">=</mo><mn>0</mn></mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></munderover 
+><msup><mrow 
+><mi 
+>&#x03B1;</mi></mrow><mrow 
+><mi 
+>l</mi></mrow></msup 
+></mrow></mfrac>
+</math>
+<!--l. 47--><p class="nopar" >
+</p><!--l. 49--><p class="noindent" >the above Stat will be <!--l. 50--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><msup><mrow 
+><mi 
+>&#x03C7;</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>k</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>.
+I am thinking I should be able to use this Stat to test a null hypothesis
+<!--l. 50--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mn>0</mn><mspace width="1em" class="nbsp" /><mo 
+class="MathClass-op">&#x2200;</mo><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn><mo 
+class="MathClass-punc">.</mo><mo 
+class="MathClass-punc">.</mo><mo 
+class="MathClass-punc">.</mo><mi 
+>k</mi></math> v.s.
+alternative <!--l. 50--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mo 
+class="MathClass-rel">&#x2260;</mo><mn>0</mn><mspace width="1em" class="nbsp" /><mo 
+class="MathClass-op">&#x2200;</mo><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn><mo 
+class="MathClass-punc">.</mo><mo 
+class="MathClass-punc">.</mo><mo 
+class="MathClass-punc">.</mo><mi 
+>k</mi></math>.
+Leads to questions.<br 
+class="newline" />
+</p><!--l. 52--><p class="noindent" >1) Is this a worthwhile test to evaluate performance of a model?<br 
+class="newline" /><br 
+class="newline" />
+</p><!--l. 55--><p class="noindent" >2) Have you ever seen anyone do something like this? I am basing this off Chow
+test, Chow, Gregory C. (1960). &#x201D;Tests of Equality Between Sets of Coefficients in
+Two Linear Regressions&#x201D;. Econometrica . The difficulty with applying the test in
+that paper is that its for OLS and the residuals are all i.i.d. normal, whereas in
+time series model the k-step forecast residuals have changing distribution.
+<br 
+class="newline" /><br 
+class="newline" />
+</p>
+   
+</body> 
+</html> 
+
+
+

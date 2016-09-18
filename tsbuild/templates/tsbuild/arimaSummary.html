@@ -1,0 +1,100 @@
+{% extends 'sigmauser/base.html' %}
+
+
+{% block content %}
+
+    <style>
+    table.solid {border-style: solid;}
+    h1.solid {border-style: solid;}
+    h2.solid {border-style: solid;}
+    </style>
+    
+    
+    <h1 class='solid' align='center' width='80%'>ARIMA Model Results</h1>
+    <h2 class='solid' align='center' width='80%'>In Sample</h2>
+    <table class='solid' width='80%' cellpadding='10' align='center'>
+        <tr>
+            <td align='left'>Dependent Variable<td> <td align='right'>{{fit.model.endog_names}}</td>
+            <td align='left'>Number of Observations<td> <td align='right'>{{fit.nobs}}</td>
+        <tr>
+        
+        <tr>
+            <td align='left'>Model<td> <td align='right'> {{Model}}</td>
+            <td align='left'>Log Likelihoo<td> <td align='right'>{{fit.llf}}</td>
+        <tr>
+            
+        <tr>
+            <td align='left'>Method<td> <td align='right'>{{fit.model.method}}</td>
+            <td align='left'>S.D. of innovations<td> <td align='right'>{{SDInov}}</td>
+        <tr>
+            
+         <tr>
+            <td align='left'>Date<td> <td align='right'>{{estimation_date}}</td>
+            <td align='left'>AIC<td> <td align='right'>{{fit.aic}}</td>
+        <tr>
+            
+        <tr>
+            <td align='left'>Time<td> <td align='right'>{{estimation_time}}</td>
+            <td align='left'>BIC<td> <td align='right'>{{fit.bic}}</td>
+        <tr>
+            
+        <tr>
+            <td align='left'>Sample<td> <td align='right'>{{starttoend}}</td>
+            <td align='left'>HQIC<td> <td align='right'>{{fit.hqic}}</td>
+        <tr>
+    </table>
+    
+    <h2 align='center' width='80%'>Coefficients</h2>
+    
+    <table class='solid' width='80%' cellpadding='10' align='center' border='1'>
+        
+        <tr>
+            <td align='left'> </td>
+            {% for i in fit.params.index %}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        
+        <tr>
+             <td align='left'>coef</td>
+            {% for i in fit.params%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        
+        <tr>
+            <td align='left'>std. err.</td>
+            {% for i in fit.bse%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        
+        <tr>
+            <td align='left'>z</td>
+            {% for i in fit.tvalues%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        
+        <tr>
+            <td align='left'>P>|z|</td>
+            {% for i in fit.pvalues%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        
+        <tr>
+            <td align='left'>2.5%</td>
+            {% for i in confint0%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+        <tr>
+            <td align='left'>97.5%</td>
+            {% for i in confint1%}
+            <td align='left'>{{ i }}</td>
+            {% endfor%}
+        </tr>
+    </table>
+
+{% endblock %}

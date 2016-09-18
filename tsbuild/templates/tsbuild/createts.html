@@ -1,0 +1,21 @@
+
+{% extends 'sigmauser/base.html' %}
+
+{% block content %}
+
+<form role="form" action=""  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>Project Name</h3>
+    {{createts_form.modelname}}</br>
+    <h4>Project Description</h4>
+    {{createts_form.modeldescription}}<br>
+    <h4>Data Set<h4>
+    {{createts_form.datasetid}}<br>
+    <h4>Documentation</h4>
+    {{createts_form.modeldocumentation}}<br>
+    
+    <button type="submit"'>Submit</button>
+</form>
+
+{% endblock %}
+
