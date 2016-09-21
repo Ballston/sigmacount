@@ -91,13 +91,19 @@ def register(request):
             profile.save()
             
             registered=True
+            login_form=UserLoginForm()
             
         else:
             print user_form.errors, profile_form.errors
             
+
+            
     else:
         user_form=UserForm()
         profile_form=UserProfileForm()
-            
-            
-    return render(request,  'sigmauser/register.html', {'user_form' : user_form, 'profile_form': profile_form, 'registered': registered} )
+        login_form=UserLoginForm()
+    
+    return render(request,  'sigmauser/register.html', {'user_form' : user_form,
+                                                        'profile_form': profile_form,
+                                                        'registered': registered,
+                                                        'login_form': login_form} )

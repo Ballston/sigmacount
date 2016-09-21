@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 
 from tsbuild.forms import CreateTSForm, WorkSpaceSpec
-from exploredata.models import datasets, timeseriesmodel,tsmodelworkflow,tsmodelvalues,timeseries, tsmodelstats
+from exploredata.models import datasets, timeseriesmodel,tsmodelworkflow,tsmodelworkflowexog,tsmodelvalues,timeseries, tsmodelstats
 
 import os
 import datetime
@@ -117,6 +117,7 @@ class WorkSpaceClass(object):
     
     fit=[]
     workspacespec_form=WorkSpaceSpec()
+    workspaces=[]
     estimated=False
     
     
@@ -124,44 +125,75 @@ class WorkSpaceClass(object):
         modelid=timeseriesmodel(tsmodelid=tsmodelid)
         workspaceid=tsmodelworkflow(workflowid=tsworkspaceid)
         instance=tsmodelworkflow.objects.get(workflowid=tsworkspaceid)
-        print('instance')
-        print(instance.stardatetime)
+        #since model specification is being changed delete all of the outputs
+        #maywant to give a warning statement
+        tsmodelvalues.objects.filter(workflowid=workspaceid).delete()
+        tsmodelworkflowexog.objects.filter(workflowid=workspaceid).delete()
+        tsmodelstats.objects.filter(workflowid=workspaceid).delete()
+
+        tsmodelvalues(workflowid=workspaceid,
+                      parameter=self.depVar[0],
+                           parameter_type='dep').save()
+        
+        for indep in self.indepVar:
+            tsmodelvalues(workflowid=workspaceid,
+                      parameter=indep,
+                           parameter_type='coef').save()
+            tsmodelworkflowexog(workflowid=workspaceid,parameter=indep).save()
+
         instance.stardatetime=self.startdate
         instance.enddatetime=self.enddate
         instance.modeltype=self.modeltype
         instance.AR=self.AR
         instance.I=self.I
         instance.MA=self.MA
+        instance.estimated=False
         instance.save()
         
         return HttpResponseRedirect('/tsbuild/workspace/%s/%s' % (str(tsmodelid),str(tsworkspaceid)))
              
     def WorkSpaceConstruct(self,request,tsmodelid,tsworkspaceid):
-        
-        
         dataset_id=timeseriesmodel.objects.filter(tsmodelid=tsmodelid).values('datasetid')
         
         #Get list of all workspaces associated with the model
         allworkspaces=tsmodelworkflow.objects.filter(tsmodelid=tsmodelid).values('workflowid')
-        
+        self.workspaces=[]
+        for space in allworkspaces:
+            self.workspaces.append(space['workflowid'])
         #Get workflow properties
         instance=tsmodelworkflow.objects.filter(workflowid=tsworkspaceid)
         
         #For the current workspace get the list of all parameter values that were saved
-        workspacevalues=tsmodelvalues.objects.filter(workflowid=tsworkspaceid)
-
+        workspaceid=tsmodelworkflow(workflowid=tsworkspaceid)
+        
+        
         self.AR=instance.values('AR')[0]['AR']
         self.MA=instance.values('MA')[0]['MA']
         self.I=instance.values('I')[0]['I']
         
-        self.stardate=instance.values('stardatetime')[0]['stardatetime']
+        self.startdate=instance.values('stardatetime')[0]['stardatetime']
         self.enddate=instance.values('enddatetime')[0]['enddatetime']
         self.modeltype=instance.values('modeltype')[0]['modeltype']
         
         
+        workspacedevar=tsmodelvalues.objects.filter(workflowid=tsworkspaceid, parameter_type='dep')
+        workspaceindepvar=tsmodelworkflowexog.objects.filter(workflowid=tsworkspaceid)
+        
+        if len(workspaceindepvar.values('parameter'))>0:
+            self.depVar=[]
+            self.depVar.append(workspacedevar.values('parameter')[0]['parameter'])
+        
+        if len(workspaceindepvar.values('parameter'))>0:
+            for exog in workspaceindepvar.values('parameter'):
+                if self.indepVar.count(exog['parameter'])>0:
+                    #print('Skipping, the variable is already in the list')
+                    pass
+                else:
+                    self.indepVar.append(exog['parameter'])
+
+        
         #For the current workspace get the all of the statistics
         workspacestats=tsmodelstats.objects.filter(workflowid=tsworkspaceid)
-        
         
         
         variables=timeseries.objects.filter(datasetid_id=dataset_id).values('seriesname').distinct()
@@ -170,7 +202,11 @@ class WorkSpaceClass(object):
             variables_choicelist.append((i['seriesname'],i['seriesname']))
             
         self.workspacespec_form.fields['depVar'].choices=variables_choicelist
+        if len(self.depVar)>0:
+            self.workspacespec_form.fields['depVar'].initial=self.depVar[0]
+        
         self.workspacespec_form.fields['indepVar'].choices=variables_choicelist
+        
         self.workspacespec_form.fields['modeltype'].initial=self.modeltype
         self.workspacespec_form.fields['AR'].initial=self.AR
         self.workspacespec_form.fields['MA'].initial=self.MA
@@ -178,17 +214,16 @@ class WorkSpaceClass(object):
         self.workspacespec_form.fields['startdate'].initial=self.startdate
         self.workspacespec_form.fields['enddate'].initial=self.enddate
         
-        if len(self.depVar)>0:
-            self.workspacespec_form.fields['depVar'].initial=self.depVar[0]
+        #if len(self.depVar)>0:
+        #    self.workspacespec_form.fields['depVar'].initial=self.depVar[0]
         
         #print(self.workspacespec_form.fields['modeltype'].initial)
         
-        print(variables[0])
-        print(self.indepVar)
         return render(request,'tsbuild/workspace.html',{'workspacespec_form': self.workspacespec_form,
                                                          'tsmodelid': tsmodelid,
                                                          'tsworkspaceid':tsworkspaceid,
-                                                         'spec': self} )
+                                                         'spec': self,
+                                                         'workspaces': self.workspaces} )
     
     def AddIndependentVar(self,request,tsmodelid,tsworkspaceid):
         print('Attempting to add independent variable\n')
@@ -253,7 +288,7 @@ class WorkSpaceClass(object):
         print(self.data)
         ig=lambda x:x
         g=lambda x:x
-        print(self.depVar[0])
+ 
         test=modeler.ModelClass(data=self.data,startdate=self.startdate,enddate=self.enddate, dependent=self.depVar[0],exogenous=self.indepVar ,transform=g,inverstransform=ig)
         test.setmodel(AR=int(self.AR),I=int(self.I),MA=int(self.MA))
         
@@ -267,9 +302,12 @@ class WorkSpaceClass(object):
         
         self.SaveValues(tsmodelid,tsworkspaceid,test.fit)
         
-        
+        #QQ Plot
         sm.qqplot(test.fit.resid)
         plt.savefig('files/%s/%s/qqplot_resid.png' % (tsmodelid, tsworkspaceid))
+        #In Sample plot
+        
+        #ACF and PACF of errors
         
         return render(request,'tsbuild/arimaSummary.html', {'fit': self.fit, 'confint0':confint0, 'confint1':confint1} )
     
@@ -282,6 +320,9 @@ class WorkSpaceClass(object):
         tsmodelstats(workflowid=workflowid, stat='bic',value=fit.bic).save()
         tsmodelstats(workflowid=workflowid, stat='hqic',value=fit.hqic).save()
         #tsmodelvalues(workflowid=workflowid,)
+        tsmodelvalues(workflowid=workflowid,
+                      parameter=self.depVar[0],
+                           parameter_type='dep').save()
         for i in range(0,len(fit.params)):
             tsmodelvalues(workflowid=workflowid, parameter=fit.params.index[i],
                            parameter_type='coef',value=fit.params[i]).save()
@@ -295,12 +336,20 @@ class WorkSpaceClass(object):
                            parameter_type='c25',value=fit.conf_int()[0][i]).save()
             tsmodelvalues(workflowid=workflowid, parameter=fit.params.index[i],
                            parameter_type='c975',value=fit.conf_int()[1][i]).save()
+            
+        instance=tsmodelworkflow.objects.get(workflowid=tsworkspaceid)
+        instance.estimated=True
+        instance.save()
         
         return 0
 
         
     def ClearSpecification(self,request,tsmodelid,tsworkspaceid):
         print('Clear Specifications \n')
+        workspaceid=tsmodelworkflow(workflowid=tsworkspaceid)
+        tsmodelvalues.objects.filter(workflowid=workspaceid).delete()
+        tsmodelworkflowexog.objects.filter(workflowid=workspaceid).delete()
+        tsmodelstats.objects.filter(workflowid=workspaceid).delete()
         self.depVar=[]
         self.indepVar=[]
         self.modeltype=1

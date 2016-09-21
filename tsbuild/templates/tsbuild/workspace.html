@@ -4,6 +4,11 @@
 
 {% block content %}
 
+<a href='/tsbuild/workspace/{{tsmodelid}}'>Project Home</a>
+{% for i in workspaces%}
+<a href='/tsbuild/workspace/{{tsmodelid}}/{{i}}'>{{i}}</a>
+{% endfor %}
+
 
 <table>
     <tr>

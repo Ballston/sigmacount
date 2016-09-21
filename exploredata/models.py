@@ -55,6 +55,10 @@ class tsmodelworkflow(models.Model):
     MA=models.IntegerField(db_column='MA',default=0)
     I=models.IntegerField(db_column='I',default=0)
     
+
+class tsmodelworkflowexog(models.Model):
+    workflowid=models.ForeignKey(tsmodelworkflow, on_delete=models.CASCADE)
+    parameter=models.CharField(db_column='parameter', max_length=32)
     
 class tsmodelvalues(models.Model):
     #The parameters of the model in each itteration of the work flow are saved in this table

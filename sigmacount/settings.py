@@ -80,20 +80,13 @@ WSGI_APPLICATION = 'sigmacount.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SIGMACOUNT',
+        'NAME': 'SIGMACOUNT3',
         'USER': 'root',
         'PASSWORD': '1234',
        # 'HOST': '121.0.0.1',
         #'PORT': '3306',
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'SIGMACOUNT',
-    #     'USER': 'laptop',
-    #     'PASSWORD': 'martingale1',
-    #     'HOST': '192.168.1.11',
-    #     'PORT': '3306',
-    #}
+
 }
 
 
