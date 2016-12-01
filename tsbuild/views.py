@@ -19,6 +19,7 @@ import pandas
 import numpy
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import statsmodels.api as sm
 
 import common
@@ -63,6 +64,7 @@ def Createts(request):
             
             #Prepare location for saving
             os.mkdir('files/%s/' % (workflow.tsmodelid.tsmodelid) )
+            #os.mkdir('static/tsbuild/%s/' % (workflow.tsmodelid.tsmodelid) )
             os.mkdir('files/%s/%s/' % (workflow.tsmodelid.tsmodelid,workflow.workflowid) )
             
             myfile = request.FILES.get('modeldocumentation')
@@ -289,27 +291,46 @@ class WorkSpaceClass(object):
         ig=lambda x:x
         g=lambda x:x
  
-        test=modeler.ModelClass(data=self.data,startdate=self.startdate,enddate=self.enddate, dependent=self.depVar[0],exogenous=self.indepVar ,transform=g,inverstransform=ig)
-        test.setmodel(AR=int(self.AR),I=int(self.I),MA=int(self.MA))
+        tsmodel=modeler.ModelClass(data=self.data,startdate=self.startdate,enddate=self.enddate, dependent=self.depVar,exogenous=self.indepVar ,transform=g,inverstransform=ig)
+        tsmodel.setmodel(AR=int(self.AR),I=int(self.I),MA=int(self.MA))
         
         
-        test.estimate()
-        self.fit=test.fit
-        print test.fit.summary()
+        tsmodel.estimate()
+        self.fit=tsmodel.fit
+        print tsmodel.fit.summary()
         #return HttpResponseRedirect('/tsbuild/workspace/%s/%s' % (str(tsmodelid),str(tsworkspaceid)))
         confint0=self.fit.conf_int()[0]
         confint1=self.fit.conf_int()[1]
         
-        self.SaveValues(tsmodelid,tsworkspaceid,test.fit)
+        self.SaveValues(tsmodelid,tsworkspaceid,tsmodel.fit)
         
         #QQ Plot
-        sm.qqplot(test.fit.resid)
+        sm.qqplot(tsmodel.fit.resid)
         plt.savefig('files/%s/%s/qqplot_resid.png' % (tsmodelid, tsworkspaceid))
+        plt.clf()
         #In Sample plot
+        pdframe=pandas.DataFrame()
+        self.data['resid']=tsmodel.fit.resid
+        self.data['%s_%s' % (self.depVar[0], 'hat')]=self.fit.fittedvalues
         
-        #ACF and PACF of errors
+        #Plot residuals
+        print(tsmodel.fit.resid.index)
+        print(tsmodel.fit.resid.values)
+        plt.plot(tsmodel.fit.resid.index,tsmodel.fit.resid.values)
+        plt.savefig('files/%s/%s/resid.png' % (tsmodelid, tsworkspaceid))
+        plt.clf()
         
-        return render(request,'tsbuild/arimaSummary.html', {'fit': self.fit, 'confint0':confint0, 'confint1':confint1} )
+        plt.plot(tsmodel.fit.fittedvalues.index,tsmodel.fit.fittedvalues.values)
+        plt.plot(self.data[self.depVar[0]].index,self.data[self.depVar[0]].values)
+        plt.savefig('files/%s/%s/insample.png' % (tsmodelid, tsworkspaceid))
+        plt.clf()
+
+        
+        return render(request,'tsbuild/arimaSummary.html', {'fit': self.fit,
+                                                            'confint0':confint0,
+                                                            'confint1':confint1,
+                                                            'tsmodelid':tsmodelid,
+                                                            'tsworkspaceid':tsworkspaceid} )
     
     def SaveValues(self,tsmodelid,tsworkspaceid,fit):
         workflowid=tsmodelworkflow(workflowid=tsworkspaceid)

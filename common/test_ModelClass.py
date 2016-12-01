@@ -26,9 +26,9 @@ test.setmodel(AR=1,I=0,MA=0)
 
 test.estimate()
 a=test.fit.summary()
-print test.fit.params
-
 print(dir(test.fit))
+
+print(dir(test.fit.fittedvalues))
 
 #plt.acorr(test.fit.resid,maxlags = 24, linestyle = "solid", usevlines = False, marker='')
 #lt.show()
@@ -36,9 +36,21 @@ print(dir(test.fit))
 #pandas.tools.plotting.autocorrelation_plot(test.fit.resid)
 #plt.show()
 
-sm.qqplot(test.fit.resid)
-plt.savefig('test.png')
-print(test.fit.model)
+#sm.qqplot(test.fit.resid)
+#plt.savefig('test.png')
+plt.plot(test.fit.fittedvalues.index,test.fit.fittedvalues.values)
+plt.show()
+print(dir(test.fit.fittedvalues))
+#test.fit.fittedvalues.rename('VIX')
+# a=pd.DataFrame()
+# a['resid']=test.fit.resid
+# a['%s_%s' %(test.fit.model.endog_names, 'hat')]=test.fit.fittedvalues
+# a['resid'].plot(legend=True,title='Residuals')
+# plt.show()
+#a['VIX_hat'].plot(legend=True)
+
+
+print(dir(test.fit))
 
 #test.insample()
 

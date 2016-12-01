@@ -96,5 +96,16 @@
             {% endfor%}
         </tr>
     </table>
+    
+    <figure>
+        {% load static %}
+        <img src='/home/teddy/Development/django/sigmacount/files/{{tsmodelid}}/{{tsworkspaceid}}/qqplot_resid.png'>
+    </figure>
 
+    <figure>
+        <img src="../files/{{tsmodelid}}/{{tsworkspaceid}}/resid.png">
+    </figure>
+    <figure>
+        <img src="sigmacount/files/{{tsmodelid}}/{{tsworkspaceid}}/insample.png">
+    </figure>
 {% endblock %}
